@@ -2,7 +2,7 @@ import express from "express";
 import { userSignIn, userSignUp, userUpdate } from "../schemas/userSchema.js";
 import { prisma } from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
-
+import { authMiddleware } from "../middleware/authMiddlewares.js";
 const userRouter = express.Router();
 
 userRouter.post("/signup", async (req, res) => {
@@ -60,8 +60,28 @@ userRouter.post("/signin", async (req, res) => {
         });
     }
 
-    const token = await jwt.sign({ id: user.id }, process.env.JWT_SECERT!);
+    const token = await jwt.sign({ id: user.id }, process.env.JWT_SECRET!);
     return res.json(token);
+});
+
+userRouter.put("/", authMiddleware, async (req, res) => {
+    const bodyParsed = userUpdate.safeParse(req.body);
+
+    if (!bodyParsed.success) {
+        return res.status(411).json({
+            msg: "Incorrect inputs",
+        });
+    }
+
+    try {
+        await prisma.user.update({
+            where: { id: req.userid },
+            data: bodyParsed.data,
+        });
+        return res.status(200).json("Updated succesfully");
+    } catch (err) {
+        return res.status(600).json("Interna server error");
+    }
 });
 
 export { userRouter };
