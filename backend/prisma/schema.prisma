@@ -12,3 +12,31 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  firstName String
+  lastName  String?
+  password String
+  expenses  Expenses[]
+}
+
+model Expenses {
+  id                 String     @id @default(uuid())
+  expenseName        String
+  expense            User       @relation(fields: [expenseId], references: [id])
+  expenseId          String
+  amount             Int
+  expenseDescription String?
+  category           Category[]
+  dateCreated        DateTime   @default(now())
+  dateUpdated        DateTime   @updatedAt
+}
+
+model Category {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  categories Expenses @relation(fields: [categoryId], references: [id])
+  categoryId String
+}
