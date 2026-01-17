@@ -1,3 +1,67 @@
 import express from "express";
+import { userSignIn, userSignUp, userUpdate } from "../schemas/userSchema.js";
+import { prisma } from "../lib/prisma.js";
+import jwt from "jsonwebtoken";
 
 const userRouter = express.Router();
+
+userRouter.post("/signup", async (req, res) => {
+    const bodyParsed = userSignUp.safeParse(req.body);
+    if (!bodyParsed.success) {
+        return res.status(411).json({
+            msg: "Incorrect inputs",
+        });
+    }
+
+    const existingUser = await prisma.user.findUnique({
+        where: {
+            email: bodyParsed.data.email,
+        },
+    });
+
+    if (existingUser) {
+        return res.status(411).json({
+            msg: "Email already taken / Incorrect inputs",
+        });
+    }
+
+    const user = await prisma.user.create({
+        data: {
+            email: bodyParsed.data.email,
+            firstName: bodyParsed.data.firstName,
+            lastName: bodyParsed.data.lastName,
+            password: bodyParsed.data.password,
+        },
+    });
+
+    const token = await jwt.sign({ id: user.id }, process.env.JWT_SECERT!);
+    return res.json(token);
+});
+
+userRouter.post("/signin", async (req, res) => {
+    const bodyParsed = userSignIn.safeParse(req.body);
+
+    if (!bodyParsed.success) {
+        return res.status(411).json({
+            msg: "Incorrect inputs",
+        });
+    }
+
+    const user = await prisma.user.findUnique({
+        where: {
+            email: bodyParsed.data.email,
+            password: bodyParsed.data.password,
+        },
+    });
+
+    if (!user) {
+        return res.status(403).json({
+            error: "User not found",
+        });
+    }
+
+    const token = await jwt.sign({ id: user.id }, process.env.JWT_SECERT!);
+    return res.json(token);
+});
+
+export { userRouter };

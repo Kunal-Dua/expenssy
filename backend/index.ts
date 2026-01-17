@@ -1,5 +1,4 @@
 import express from "express";
-require("dotenv").config();
 import cors from "cors";
 import { rootRouter } from "./routes/index.js";
 const port = process.env.PORT;
