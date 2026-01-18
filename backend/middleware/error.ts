@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 export interface ErrorWithStatus extends Error {
     statusCode?: number;
 }
@@ -7,6 +7,7 @@ const globalErrorHandler = (
     err: unknown,
     req: Request,
     res: Response,
+    next: NextFunction,
 ) => {
     console.error(err);
 
