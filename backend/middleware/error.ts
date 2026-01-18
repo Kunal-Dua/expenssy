@@ -1,0 +1,32 @@
+import type { Request, Response } from "express";
+export interface ErrorWithStatus extends Error {
+    statusCode?: number;
+}
+
+const globalErrorHandler = (
+    err: unknown,
+    req: Request,
+    res: Response,
+) => {
+    console.error(err);
+
+    let statusCode = 500;
+    let message = "Something went wrong!";
+
+    // Narrow unknown → Error
+    if (err instanceof Error) {
+        message = err.message;
+
+        const customErr = err as ErrorWithStatus;
+        if (customErr.statusCode) {
+            statusCode = customErr.statusCode;
+        }
+    }
+
+    res.status(statusCode).json({
+        status: statusCode >= 400 && statusCode < 500 ? "fail" : "error",
+        message,
+    });
+};
+
+export default globalErrorHandler;
