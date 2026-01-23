@@ -3,7 +3,17 @@ import { userSignIn, userSignUp, userUpdate } from "../schemas/userSchema.js";
 import { prisma } from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 import { authMiddleware } from "../middleware/authMiddlewares.js";
+
 const userRouter = express.Router();
+
+userRouter.get("/me", authMiddleware, async (req, res) => {
+    res.status(200).json({
+        exists: true,
+        user: {
+            userid: req.userid,
+        },
+    });
+});
 
 userRouter.post("/signup", async (req, res) => {
     const bodyParsed = userSignUp.safeParse(req.body);
@@ -34,7 +44,7 @@ userRouter.post("/signup", async (req, res) => {
         },
     });
 
-    const token = await jwt.sign({ id: user.id }, process.env.JWT_SECERT!);
+    const token = await jwt.sign({ id: user.id }, process.env.JWT_SECRET!);
     return res.json(token);
 });
 
