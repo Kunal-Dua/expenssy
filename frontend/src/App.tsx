@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Tracker from "./pages/Tracker";
+import { useAuthInit } from "./hooks/useAuthInit";
 
 function App() {
+    useAuthInit();
     return (
         <>
             <BrowserRouter>
