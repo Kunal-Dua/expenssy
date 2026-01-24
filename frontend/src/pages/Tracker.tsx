@@ -1,18 +1,19 @@
+import CategoryChart from "../components/categoryChart";
+import CreateExpense from "../components/CreateExpense";
+import ExpenseList from "../components/ExpenseList";
 import Navbar from "../components/Navbar";
 
 const Tracker = () => {
     return (
         <>
             <Navbar />
-            <div className="flex m-2 p-2 justify-evenly">
+            <div className="flex p-2 my-5 justify-evenly">
                 <div className="">
-                    <div>create</div>
-                    <div> all </div>
+                    <CreateExpense />
+                    <ExpenseList />
                 </div>
                 <div>
-                    <div>chart 1</div>
-                    <div> 2</div>
-                    <div>3</div>
+                    <CategoryChart />
                 </div>
             </div>
         </>
