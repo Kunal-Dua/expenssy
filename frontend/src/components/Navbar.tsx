@@ -1,11 +1,17 @@
 import { authState } from "../store/atoms/authAtom";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import { Avatar } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const { isAuthenticated } = useRecoilValue(authState);
-    const reset = useResetRecoilState(authState);
+    const navigate = useNavigate();
+    const reset=useResetRecoilState(authState);
+    function logout() {
+        reset();
+        localStorage.removeItem("token");
+        navigate("/signin");
+    }
 
     return (
         <div className="flex justify-between m-3 p-2">
@@ -20,9 +26,7 @@ const Navbar = () => {
                             />
                         </div>
                         <div>
-                            <button onClick={reset}>Logout</button>
-                            localStorage.removeItem("token");
-                            <Link to="/signin"></Link>
+                            <button onClick={logout}>Logout</button>
                         </div>
                     </div>
                 ) : (
