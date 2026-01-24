@@ -7,12 +7,12 @@ const Tracker = () => {
     return (
         <>
             <Navbar />
-            <div className="flex p-2 my-5 justify-evenly">
-                <div className="">
+            <div className="flex p-2 my-5 gap-5">
+                <div className="flex flex-col flex-1">
                     <CreateExpense />
                     <ExpenseList />
                 </div>
-                <div>
+                <div className="flex-1">
                     <CategoryChart />
                 </div>
             </div>

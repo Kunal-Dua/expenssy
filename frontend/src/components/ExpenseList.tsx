@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ExpenseList = () => {
-  return (
-    <div>ExpenseList</div>
-  )
-}
+    return <div className="bg-cyan-200 flex-1" >ExpenseList</div>;
+};
 
-export default ExpenseList
+export default ExpenseList;
