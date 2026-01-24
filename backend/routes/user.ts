@@ -6,7 +6,7 @@ import { authMiddleware } from "../middleware/authMiddlewares.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/me", authMiddleware, async (req, res) => {
+userRouter.get("/auth/me", authMiddleware, async (req, res) => {
     res.status(200).json({
         exists: true,
         user: {
