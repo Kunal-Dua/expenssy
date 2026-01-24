@@ -139,30 +139,41 @@ trackerRouter.post("/addExpense", async (req, res) => {
         });
     }
 
-    const category = await prisma.category.findUnique({
-        where: {
-            userId: req.userid,
-            id: bodyParsed.data.categoryId,
-        },
-        select: {
-            name: true,
-        },
-    });
+    try {
+        const category = await prisma.category.findUnique({
+            where: {
+                userId: req.userid,
+                id: bodyParsed.data.categoryId,
+            },
+            select: {
+                name: true,
+            },
+        });
 
-    const expense = await prisma.expenses.create({
-        data: {
-            expenseName: bodyParsed.data.name,
-            userId: req.userid,
-            amount: bodyParsed.data.amount,
-            expenseDescription: bodyParsed.data.description,
-            categoryId: req.body.categoryId,
-            categoryName: category?.name as string,
-        },
-    });
+        if (!category?.name) {
+            return res.status(403).json({
+                msg: "Invalid inputs",
+            });
+        }
+        const expense = await prisma.expenses.create({
+            data: {
+                expenseName: bodyParsed.data.name,
+                userId: req.userid,
+                amount: bodyParsed.data.amount,
+                expenseDescription: bodyParsed.data.description,
+                categoryId: req.body.categoryId,
+                categoryName: category?.name as string,
+            },
+        });
 
-    return res.status(200).json({
-        msg: "Expense added successfully",
-    });
+        return res.status(200).json({
+            msg: "Expense added successfully",
+        });
+    } catch (err) {
+        return res.status(403).json({
+            msg: "Invalid inputs",
+        });
+    }
 });
 
 trackerRouter.put("/updateExpense", async (req, res) => {
