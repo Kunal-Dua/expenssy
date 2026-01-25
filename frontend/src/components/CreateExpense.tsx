@@ -34,10 +34,7 @@ const CreateExpense = () => {
         <div className="flex-1">
             <div className="rounded-md border-gray-500 m-2 p-2">
                 <h3 className="flex ustify-around">Add Expense</h3>
-                <form
-                    className="flex flex-col gap-2 mt-5"
-                    onClick={OnSubmission}
-                >
+                <form className="flex flex-col gap-2 mt-5">
                     <TextField
                         type="number"
                         id="outlined-basic"
@@ -103,7 +100,10 @@ const CreateExpense = () => {
                             });
                         }}
                     />
-                    <button className="border bg-blue-600 border-blue-600 text-sm rounded-lg p-2.5 text-white block">
+                    <button
+                        className="border bg-blue-600 border-blue-600 text-sm rounded-lg p-2.5 text-white block"
+                        onClick={OnSubmission}
+                    >
                         Submit
                     </button>
                 </form>
