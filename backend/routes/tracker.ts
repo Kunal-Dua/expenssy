@@ -200,19 +200,14 @@ trackerRouter.put("/updateExpense", async (req, res) => {
     });
 });
 
-trackerRouter.delete("/deleteExpense", async (req, res) => {
-    const bodyParsed = deleteExpense.safeParse(req.body);
-    if (!bodyParsed.success) {
-        return res.status(411).json({
-            msg: "Expense doesnt exist",
-        });
-    }
-
+trackerRouter.delete("/deleteExpense/:id", async (req, res) => {
     try {
+        console.log(req.params.id);
+        
         const expense = await prisma.expenses.delete({
             where: {
                 userId: req.userid,
-                id: bodyParsed.data.expenseId,
+                id: req.params.id,
             },
         });
 
@@ -222,6 +217,7 @@ trackerRouter.delete("/deleteExpense", async (req, res) => {
     } catch (err) {
         return res.status(411).json({
             msg: "Expense not deleted",
+            err,
         });
     }
 });
