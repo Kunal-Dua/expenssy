@@ -1,4 +1,5 @@
-import CategoryChart from "../components/categoryChart";
+import AddCategory from "../components/AddCategory";
+import CategoryChart from "../components/CategoryChart";
 import CreateExpense from "../components/CreateExpense";
 import ExpenseList from "../components/ExpenseList";
 import Navbar from "../components/Navbar";
@@ -13,6 +14,7 @@ const Tracker = () => {
                     <ExpenseList />
                 </div>
                 <div className="flex-1">
+                    <AddCategory />
                     <CategoryChart />
                 </div>
             </div>

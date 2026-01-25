@@ -23,14 +23,19 @@ trackerRouter.post("/addCategory", async (req, res) => {
         });
     }
 
-    const expense = await prisma.category.create({
+    const category = await prisma.category.create({
         data: {
             name: bodyParsed.data.name,
             userId: req.userid,
         },
+        select: {
+            id: true,
+            name: true,
+        },
     });
     return res.status(200).json({
         msg: "Category created successfully",
+        category,
     });
 });
 
