@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import AddCategory from "../components/AddCategory";
 import CategoryChart from "../components/CategoryChart";
 import CreateExpense from "../components/CreateExpense";
@@ -12,6 +13,9 @@ const Tracker = () => {
                 <div className="flex flex-col flex-1">
                     <CreateExpense />
                     <ExpenseList />
+                    <Link to="/expenses">
+                        <div>See more</div>
+                    </Link>
                 </div>
                 <div className="flex-1">
                     <AddCategory />
