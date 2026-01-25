@@ -232,8 +232,8 @@ trackerRouter.get("/", async (req, res) => {
             where: {
                 userId: req.userid,
             },
+            orderBy: [{ dateUpdated: "desc" }, { dateCreated: "desc" }],
         });
-        console.log(allExpenses.length);
 
         return res.status(200).json(allExpenses);
     } catch (err) {
@@ -249,6 +249,17 @@ trackerRouter.get("/getExpense/:id", async (req, res) => {
             userId: req.userid,
             id: req.params.id,
         },
+    });
+    return res.status(200).send(expense);
+});
+
+trackerRouter.get("/getExpense", async (req, res) => {
+    const expense = await prisma.expenses.findMany({
+        where: {
+            userId: req.userid,
+        },
+        orderBy: [{ dateUpdated: "desc" }, { dateCreated: "desc" }],
+        take: 10,
     });
     return res.status(200).send(expense);
 });
