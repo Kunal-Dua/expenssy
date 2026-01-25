@@ -1,6 +1,4 @@
-
 import { useEffect, useState } from "react";
-import { BACKEND_URL } from "../config";
 import axios from "axios";
 import ExpenseTable from "./ExpenseTable";
 interface Expenses {
@@ -20,11 +18,14 @@ const ExpenseList = () => {
 
     useEffect(() => {
         axios
-            .get(`${BACKEND_URL}/api/v1/tracker/getExpense`, {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
+            .get(
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/getExpense`,
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
                 },
-            })
+            )
             .then((res) => {
                 setExpenseList(res.data);
             })
@@ -33,9 +34,7 @@ const ExpenseList = () => {
             });
     }, [expenseList]);
 
-    return (
-        <ExpenseTable expenses={expenseList}/>
-    );
+    return <ExpenseTable expenses={expenseList} />;
 };
 
 export default ExpenseList;

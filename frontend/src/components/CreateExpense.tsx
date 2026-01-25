@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { MenuItem, TextField } from "@mui/material";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
 import { useRecoilValue } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 
@@ -19,7 +18,7 @@ const CreateExpense = () => {
         e.preventDefault();
         if (inputs.amount > 0 && inputs.name != "") {
             await axios.post(
-                `${BACKEND_URL}/api/v1/tracker/addExpense`,
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/addExpense`,
                 inputs,
                 {
                     headers: {

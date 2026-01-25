@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { BACKEND_URL } from "../config";
 import axios from "axios";
 import ExpenseTable from "../components/ExpenseTable";
 import Navbar from "../components/Navbar";
@@ -21,7 +20,7 @@ const Expenses = () => {
 
     useEffect(() => {
         axios
-            .get(`${BACKEND_URL}/api/v1/tracker/`, {
+            .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/`, {
                 headers: {
                     Authorization: localStorage.getItem("token"),
                 },

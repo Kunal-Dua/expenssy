@@ -2,7 +2,6 @@ import { useState, type ChangeEvent } from "react";
 import { Quote } from "../components/Quote";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
 import { authState } from "../store/atoms/authAtom";
 import { useSetRecoilState } from "recoil";
 
@@ -17,7 +16,7 @@ const Signin = () => {
     async function sendRequest() {
         try {
             const res = await axios.post(
-                `${BACKEND_URL}/api/v1/user/signin`,
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/signin`,
                 inputs,
             );
             const jwt = res.data;

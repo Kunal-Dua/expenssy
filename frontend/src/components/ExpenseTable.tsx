@@ -8,7 +8,6 @@ import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
 interface Expenses {
     amount: number;
     categoryId: string;
@@ -27,7 +26,7 @@ type ExpenseProp = {
 
 const deleteExpense = async (expenseId: string) => {
     await axios.delete(
-        `${BACKEND_URL}/api/v1/tracker/deleteExpense/${expenseId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/deleteExpense/${expenseId}`,
         {
             headers: {
                 Authorization: localStorage.getItem("token"),
@@ -86,11 +85,7 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
                                 </div>
                             </TableCell>
                             <TableCell align="center">
-                                <div
-                                    onClick={() =>
-                                        deleteExpense(expense.id)
-                                    }
-                                >
+                                <div onClick={() => deleteExpense(expense.id)}>
                                     <DeleteIcon />
                                 </div>
                             </TableCell>

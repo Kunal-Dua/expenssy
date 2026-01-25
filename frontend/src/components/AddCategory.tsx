@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TextField } from "@mui/material";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
 import { useSetRecoilState } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 
@@ -15,7 +14,7 @@ const CreateExpense = () => {
     async function OnSubmission(e: React.FormEvent) {
         e.preventDefault();
         const res = await axios.post(
-            `${BACKEND_URL}/api/v1/tracker/addCategory`,
+            `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/addCategory`,
             inputs,
             {
                 headers: {

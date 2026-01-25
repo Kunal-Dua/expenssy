@@ -2,7 +2,6 @@ import { useSetRecoilState } from "recoil";
 import { authState } from "../store/atoms/authAtom";
 import { useEffect } from "react";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
 
 export const useAuthInit = () => {
     const setAuth = useSetRecoilState(authState);
@@ -11,11 +10,14 @@ export const useAuthInit = () => {
     if (token) {
         useEffect(() => {
             axios
-                .get(`${BACKEND_URL}/api/v1/user/auth/me`, {
-                    headers: {
-                        Authorization: token,
+                .get(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/auth/me`,
+                    {
+                        headers: {
+                            Authorization: token,
+                        },
                     },
-                })
+                )
                 .then((res) => {
                     setAuth({
                         user: res.data.user,

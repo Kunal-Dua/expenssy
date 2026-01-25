@@ -2,7 +2,6 @@ import { useState, type ChangeEvent } from "react";
 import { Quote } from "../components/Quote";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -16,7 +15,7 @@ const Signup = () => {
     async function sendRequest() {
         try {
             const res = await axios.post(
-                `${BACKEND_URL}/api/v1/user/signup`,
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/signup`,
                 inputs,
             );
             const jwt = res.data;
