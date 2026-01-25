@@ -41,8 +41,8 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center">Category</TableCell>
                         <TableCell align="center">Name</TableCell>
+                        <TableCell align="center">Category</TableCell>
                         <TableCell align="center">Amount</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Date</TableCell>
@@ -60,6 +60,9 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
                                 },
                             }}
                         >
+                            <TableCell align="center">
+                                {expense.expenseName}
+                            </TableCell>
                             <TableCell
                                 component="th"
                                 scope="row"
@@ -68,16 +71,18 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
                                 {expense.categoryName}
                             </TableCell>
                             <TableCell align="center">
-                                {expense.expenseName}
-                            </TableCell>
-                            <TableCell align="center">
                                 {expense.amount}
                             </TableCell>
                             <TableCell align="center">
                                 {expense.expenseDescription}
                             </TableCell>
                             <TableCell align="center">
-                                {expense.dateCreated}
+                                {new Date(
+                                    Math.max(
+                                        new Date(expense.dateCreated).getTime(),
+                                        new Date(expense.dateUpdated).getTime(),
+                                    ),
+                                ).toLocaleDateString()}
                             </TableCell>
                             <TableCell align="center">
                                 <div>
