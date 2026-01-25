@@ -5,7 +5,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 interface Expenses {
     amount: number;
     categoryId: string;
@@ -18,9 +21,20 @@ interface Expenses {
     userId: string;
 }
 
-type ExpenseProp={
-    expenses:Expenses[]
-}
+type ExpenseProp = {
+    expenses: Expenses[];
+};
+
+const deleteExpense = async (expenseId: string) => {
+    await axios.delete(
+        `${BACKEND_URL}/api/v1/tracker/deleteExpense/${expenseId}`,
+        {
+            headers: {
+                Authorization: localStorage.getItem("token"),
+            },
+        },
+    );
+};
 
 const ExpenseTable = ({ expenses }: ExpenseProp) => {
     return (
@@ -66,8 +80,20 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
                             <TableCell align="center">
                                 {expense.dateCreated}
                             </TableCell>
-                            <TableCell align="center"></TableCell>
-                            <TableCell align="center"></TableCell>
+                            <TableCell align="center">
+                                <div>
+                                    <EditIcon />
+                                </div>
+                            </TableCell>
+                            <TableCell align="center">
+                                <div
+                                    onClick={() =>
+                                        deleteExpense(expense.id)
+                                    }
+                                >
+                                    <DeleteIcon />
+                                </div>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
