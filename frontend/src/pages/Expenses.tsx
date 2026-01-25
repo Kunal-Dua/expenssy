@@ -18,25 +18,25 @@ interface Expenses {
 const Expenses = () => {
     const [expenseList, setExpenseList] = useState<Expenses[]>([]);
 
-    useEffect(() => {
-        axios
-            .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/`, {
+    const fetchExpenses = async () => {
+        const res = await axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/getExpense`,
+            {
                 headers: {
                     Authorization: localStorage.getItem("token"),
                 },
-            })
-            .then((res) => {
-                setExpenseList(res.data);
-            })
-            .catch((e) => {
-                console.error(e);
-            });
-    }, [expenseList]);
+            },
+        );
+        setExpenseList(res.data);
+    };
+    useEffect(() => {
+        fetchExpenses();
+    }, []);
 
     return (
         <div>
             <Navbar />
-            <ExpenseTable expenses={expenseList} />
+            <ExpenseTable expenses={expenseList} onChange={fetchExpenses} />
         </div>
     );
 };

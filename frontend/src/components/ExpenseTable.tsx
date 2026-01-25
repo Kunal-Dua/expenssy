@@ -22,20 +22,27 @@ interface Expenses {
 
 type ExpenseProp = {
     expenses: Expenses[];
+    onChange: () => void;
 };
 
-const deleteExpense = async (expenseId: string) => {
-    await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/deleteExpense/${expenseId}`,
-        {
-            headers: {
-                Authorization: localStorage.getItem("token"),
+const deleteExpense = async (expenseId: string, onChange: () => void) => {
+    try {
+        await axios.delete(
+            `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/deleteExpense/${expenseId}`,
+            {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
             },
-        },
-    );
+        );
+
+        onChange();
+    } catch (err) {
+        console.error(err);
+    }
 };
 
-const ExpenseTable = ({ expenses }: ExpenseProp) => {
+const ExpenseTable = ({ expenses, onChange }: ExpenseProp) => {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -90,7 +97,11 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
                                 </div>
                             </TableCell>
                             <TableCell align="center">
-                                <div onClick={() => deleteExpense(expense.id)}>
+                                <div
+                                    onClick={() =>
+                                        deleteExpense(expense.id, onChange)
+                                    }
+                                >
                                     <DeleteIcon />
                                 </div>
                             </TableCell>
