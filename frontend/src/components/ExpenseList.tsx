@@ -31,7 +31,7 @@ const ExpenseList = () => {
             .catch((e) => {
                 console.error(e);
             });
-    }, []);
+    }, [expenseList]);
 
     return (
         <ExpenseTable expenses={expenseList}/>

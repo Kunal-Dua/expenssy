@@ -32,7 +32,7 @@ const Expenses = () => {
             .catch((e) => {
                 console.error(e);
             });
-    }, []);
+    }, [expenseList]);
 
     return (
         <div>

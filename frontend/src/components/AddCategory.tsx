@@ -24,6 +24,9 @@ const CreateExpense = () => {
             },
         );
         setCategoryState((prev) => [...prev, res.data.category]);
+        setInputs({
+            name: "",
+        });
     }
 
     return (
