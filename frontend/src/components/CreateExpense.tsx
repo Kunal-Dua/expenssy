@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MenuItem, TextField } from "@mui/material";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-
-interface categoryDetails {
-    id: string;
-    name: string;
-}
+import { useRecoilValue } from "recoil";
+import { categoriesState } from "../store/atoms/categoryAtom";
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState({
@@ -16,19 +13,7 @@ const CreateExpense = () => {
         description: "",
     });
 
-    const [category, setCategory] = useState<categoryDetails[]>([]);
-
-    useEffect(() => {
-        axios
-            .get(`${BACKEND_URL}/api/v1/tracker/allCategory`, {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            })
-            .then((res) => {
-                setCategory(res.data);
-            });
-    }, []);
+    const category = useRecoilValue(categoriesState);
 
     async function OnSubmission(e: React.FormEvent) {
         e.preventDefault();
@@ -47,13 +32,31 @@ const CreateExpense = () => {
 
     return (
         <div className="flex-1">
-            <div className="rounded-md border-gray-500 m-2 p-2 flex flex-row justify-around items-center gap-1">
-                <form onSubmit={OnSubmission}>
+            <div className="rounded-md border-gray-500 m-2 p-2">
+                <h3 className="flex ustify-around">Add Expense</h3>
+                <form
+                    className="flex flex-col gap-2 mt-5"
+                    onClick={OnSubmission}
+                >
+                    <TextField
+                        type="number"
+                        id="outlined-basic"
+                        label="Amount"
+                        value={inputs.amount}
+                        variant="outlined"
+                        required
+                        onChange={(e) => {
+                            setInputs({
+                                ...inputs,
+                                amount: Number(e.target.value),
+                            });
+                        }}
+                    />
                     <TextField
                         id="outlined-select-currency"
                         select
                         label="Category"
-                        defaultValue=""
+                        value={inputs.categoryId}
                         required
                         onChange={(e) => {
                             setInputs({
@@ -78,6 +81,7 @@ const CreateExpense = () => {
                         id="outlined-basic"
                         label="Expense Name"
                         variant="outlined"
+                        value={inputs.name}
                         required
                         onChange={(e) => {
                             setInputs({
@@ -86,23 +90,12 @@ const CreateExpense = () => {
                             });
                         }}
                     />
-                    <TextField
-                        type="number"
-                        id="outlined-basic"
-                        label="Amount"
-                        variant="outlined"
-                        required
-                        onChange={(e) => {
-                            setInputs({
-                                ...inputs,
-                                amount: Number(e.target.value),
-                            });
-                        }}
-                    />
+
                     <TextField
                         id="outlined-basic"
                         label="Description"
                         variant="outlined"
+                        value={inputs.description}
                         onChange={(e) => {
                             setInputs({
                                 ...inputs,

@@ -3,9 +3,11 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Tracker from "./pages/Tracker";
 import { useAuthInit } from "./hooks/useAuthInit";
+import { useLoadCategories } from "./hooks/useLoadCategories";
 
 function App() {
     useAuthInit();
+    useLoadCategories();
     return (
         <>
             <BrowserRouter>
