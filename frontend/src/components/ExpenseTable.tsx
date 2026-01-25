@@ -8,6 +8,8 @@ import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { expenseState } from "../store/atoms/expenseAtom";
 interface Expenses {
     amount: number;
     categoryId: string;
@@ -22,27 +24,26 @@ interface Expenses {
 
 type ExpenseProp = {
     expenses: Expenses[];
-    onChange: () => void;
 };
 
-const deleteExpense = async (expenseId: string, onChange: () => void) => {
-    try {
-        await axios.delete(
-            `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/deleteExpense/${expenseId}`,
-            {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
+const ExpenseTable = ({ expenses }: ExpenseProp) => {
+    const setExpenses = useSetRecoilState(expenseState);
+
+    const deleteExpense = async (expenseId: string) => {
+        try {
+            await axios.delete(
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/deleteExpense/${expenseId}`,
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
                 },
-            },
-        );
-
-        onChange();
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-const ExpenseTable = ({ expenses, onChange }: ExpenseProp) => {
+            );
+            setExpenses((prev) => prev.filter((item) => item.id !== expenseId));
+        } catch (err) {
+            console.error(err);
+        }
+    };
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -97,11 +98,7 @@ const ExpenseTable = ({ expenses, onChange }: ExpenseProp) => {
                                 </div>
                             </TableCell>
                             <TableCell align="center">
-                                <div
-                                    onClick={() =>
-                                        deleteExpense(expense.id, onChange)
-                                    }
-                                >
+                                <div onClick={() => deleteExpense(expense.id)}>
                                     <DeleteIcon />
                                 </div>
                             </TableCell>

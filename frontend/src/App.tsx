@@ -5,10 +5,12 @@ import Tracker from "./pages/Tracker";
 import { useAuthInit } from "./hooks/useAuthInit";
 import { useLoadCategories } from "./hooks/useLoadCategories";
 import Expenses from "./pages/Expenses";
+import useLoadExpenses from "./hooks/useLoadExpenses";
 
 function App() {
     useAuthInit();
     useLoadCategories();
+    useLoadExpenses();
     return (
         <>
             <BrowserRouter>

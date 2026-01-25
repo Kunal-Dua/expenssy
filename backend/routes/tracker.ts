@@ -173,6 +173,7 @@ trackerRouter.post("/addExpense", async (req, res) => {
 
         return res.status(200).json({
             msg: "Expense added successfully",
+            expense,
         });
     } catch (err) {
         return res.status(403).json({
@@ -203,8 +204,8 @@ trackerRouter.put("/updateExpense", async (req, res) => {
 trackerRouter.delete("/deleteExpense/:id", async (req, res) => {
     try {
         console.log(req.params.id);
-        
-        const expense = await prisma.expenses.delete({
+
+        await prisma.expenses.delete({
             where: {
                 userId: req.userid,
                 id: req.params.id,

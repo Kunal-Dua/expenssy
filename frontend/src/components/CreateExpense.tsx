@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { MenuItem, TextField } from "@mui/material";
 import axios from "axios";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
+import { expenseState } from "../store/atoms/expenseAtom";
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState({
@@ -12,12 +13,27 @@ const CreateExpense = () => {
         description: "",
     });
 
+    interface Expenses {
+        amount: number;
+        categoryId: string;
+        categoryName: string;
+        dateCreated: string;
+        dateUpdated: string;
+        expenseDescription: string;
+        expenseName: string;
+        id: string;
+        userId: string;
+    }
+
     const category = useRecoilValue(categoriesState);
+    const [expenses, setExpenses] = useRecoilState(expenseState);
 
     async function OnSubmission(e: React.FormEvent) {
         e.preventDefault();
         if (inputs.amount > 0 && inputs.name != "") {
-            await axios.post(
+            console.log("fghjk");
+
+            const res = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/addExpense`,
                 inputs,
                 {
@@ -26,6 +42,7 @@ const CreateExpense = () => {
                     },
                 },
             );
+            setExpenses([...expenses, res.data.expense as Expenses]);
             setInputs({
                 categoryId: "",
                 name: "",
