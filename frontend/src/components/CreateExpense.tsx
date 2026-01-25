@@ -17,17 +17,25 @@ const CreateExpense = () => {
 
     async function OnSubmission(e: React.FormEvent) {
         e.preventDefault();
-        await axios.post(`${BACKEND_URL}/api/v1/tracker/addExpense`, inputs, {
-            headers: {
-                Authorization: localStorage.getItem("token"),
-            },
-        });
-        setInputs({
-            categoryId: "",
-            name: "",
-            amount: 0,
-            description: "",
-        });
+        if (inputs.amount > 0 && inputs.name != "") {
+            await axios.post(
+                `${BACKEND_URL}/api/v1/tracker/addExpense`,
+                inputs,
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
+                },
+            );
+            setInputs({
+                categoryId: "",
+                name: "",
+                amount: 0,
+                description: "",
+            });
+        } else {
+            console.log("Invalid Inputs");
+        }
     }
 
     return (
