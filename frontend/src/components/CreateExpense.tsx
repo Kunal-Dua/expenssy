@@ -6,18 +6,7 @@ import { categoriesState } from "../store/atoms/categoryAtom";
 import { expenseState } from "../store/atoms/expenseAtom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
-interface Expenses {
-    amount: number;
-    categoryId: string;
-    categoryName: string;
-    dateCreated: string;
-    dateUpdated: string;
-    expenseDescription: string;
-    expenseName: string;
-    id: string;
-    userId: string;
-}
+import type { Expenses } from "../types/expenses";
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState({

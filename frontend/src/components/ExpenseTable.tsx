@@ -10,17 +10,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { expenseState } from "../store/atoms/expenseAtom";
-interface Expenses {
-    amount: number;
-    categoryId: string;
-    categoryName: string;
-    dateCreated: string;
-    dateUpdated: string;
-    expenseDescription: string;
-    expenseName: string;
-    id: string;
-    userId: string;
-}
+import type { Expenses } from "../types/expenses";
+
 
 type ExpenseProp = {
     expenses: Expenses[];
@@ -44,6 +35,10 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
             console.error(err);
         }
     };
+
+
+
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">

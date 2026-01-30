@@ -1,15 +1,5 @@
 import { atom } from "recoil";
-interface Expenses {
-    amount: number;
-    categoryId: string;
-    categoryName: string;
-    dateCreated: string;
-    dateUpdated: string;
-    expenseDescription: string;
-    expenseName: string;
-    id: string;
-    userId: string;
-}
+import type { Expenses } from "../../types/expenses";
 
 export const expenseState = atom<Expenses[]>({
     key: "expenseState",
