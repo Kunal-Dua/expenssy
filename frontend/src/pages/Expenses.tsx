@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import ExpenseTable from "../components/ExpenseTable";
 import Navbar from "../components/Navbar";
 import { useRecoilValue } from "recoil";

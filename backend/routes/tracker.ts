@@ -10,9 +10,9 @@ import {
     editExpense,
     getCategory,
 } from "../schemas/trackerSchema.js";
+import { log } from "node:console";
 
 const trackerRouter = express.Router();
-
 trackerRouter.use(authMiddleware);
 
 trackerRouter.post("/addCategory", async (req, res) => {
@@ -47,22 +47,28 @@ trackerRouter.put("/updateCategory", async (req, res) => {
         });
     }
 
-    const expense = await prisma.category.update({
-        where: {
-            id: req.body.categoryid,
-            userId: req.userid,
-        },
-        data: {
-            name: bodyParsed.data.name,
-        },
-    });
-    return res.status(200).json({
-        msg: "Category name updated successfully",
-    });
+    try {
+        await prisma.category.update({
+            where: {
+                id: bodyParsed.data.categoryid,
+                userId: req.userid,
+            },
+            data: {
+                name: bodyParsed.data.name,
+            },
+        });
+        return res.status(200).json({
+            msg: "Category name updated successfully",
+        });
+    } catch (err) {
+        return res.status(500).json({
+            msg: "category can not be edited",
+        });
+    }
 });
 
-trackerRouter.delete("/deleteCategory", async (req, res) => {
-    const bodyParsed = deleteCategory.safeParse(req.body);
+trackerRouter.delete("/deleteCategory/:id", async (req, res) => {
+    const bodyParsed = deleteCategory.safeParse({ categoryId: req.params.id });
     if (!bodyParsed.success) {
         return res.status(411).json({
             msg: "Category doesnt exist",
@@ -73,7 +79,7 @@ trackerRouter.delete("/deleteCategory", async (req, res) => {
         const category = await prisma.category.findUnique({
             where: {
                 userId: req.userid,
-                id: bodyParsed.data.categoryId,
+                id: req.params.id,
             },
             include: {
                 _count: true,
@@ -86,19 +92,19 @@ trackerRouter.delete("/deleteCategory", async (req, res) => {
             await prisma.category.delete({
                 where: {
                     userId: req.userid,
-                    id: bodyParsed.data.categoryId,
+                    id: req.params.id,
                 },
             });
             return res.status(200).json({
                 msg: "Deleted successfully",
             });
         } else {
-            return res.status(411).json({
+            return res.status(403).json({
                 msg: "Category can not be deleted, expenses for this category exists",
             });
         }
     } catch (err) {
-        return res.status(411).json({
+        return res.status(500).json({
             msg: "category can not be deleted",
         });
     }
@@ -203,8 +209,6 @@ trackerRouter.put("/updateExpense", async (req, res) => {
 
 trackerRouter.delete("/deleteExpense/:id", async (req, res) => {
     try {
-        console.log(req.params.id);
-
         await prisma.expenses.delete({
             where: {
                 userId: req.userid,

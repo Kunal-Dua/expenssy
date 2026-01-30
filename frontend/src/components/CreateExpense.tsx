@@ -1,9 +1,23 @@
 import React, { useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 import { expenseState } from "../store/atoms/expenseAtom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+
+interface Expenses {
+    amount: number;
+    categoryId: string;
+    categoryName: string;
+    dateCreated: string;
+    dateUpdated: string;
+    expenseDescription: string;
+    expenseName: string;
+    id: string;
+    userId: string;
+}
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState({
@@ -13,19 +27,48 @@ const CreateExpense = () => {
         description: "",
     });
 
-    interface Expenses {
-        amount: number;
-        categoryId: string;
-        categoryName: string;
-        dateCreated: string;
-        dateUpdated: string;
-        expenseDescription: string;
-        expenseName: string;
-        id: string;
-        userId: string;
-    }
+    const onEditCategory = async (categoryid: string) => {
+        try {
+            const res = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/updateCategory`,
+                { categoryid },
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
+                },
+            );
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
-    const category = useRecoilValue(categoriesState);
+    const onDeleteCategory = async (id: string) => {
+        try {
+            const res = await axios.delete(
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/deleteCategory/${id}`,
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
+                },
+            );
+            if (res.status == 200) {
+                setCategory((prev) => prev.filter((cat) => cat.id != id));
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 403) {
+                    console.log("Category cannot be deleted, expenses exist");
+                    return;
+                }
+            } else {
+                console.log(error);
+            }
+        }
+    };
+
+    const [category, setCategory] = useRecoilState(categoriesState);
     const [expenses, setExpenses] = useRecoilState(expenseState);
 
     async function OnSubmission(e: React.FormEvent) {
@@ -74,11 +117,11 @@ const CreateExpense = () => {
                         }}
                     />
                     <TextField
-                        id="outlined-select-currency"
-                        select
+                        id="outlined-select-category"
                         label="Category"
                         value={inputs.categoryId}
                         required
+                        select
                         onChange={(e) => {
                             setInputs({
                                 ...inputs,
@@ -93,9 +136,32 @@ const CreateExpense = () => {
                         }}
                     >
                         {category.map((option) => (
-                            <MenuItem key={option.id} value={option.id}>
-                                {option.name}
-                            </MenuItem>
+                            <div
+                                className="flex flex-row justify-between mr-4 pr-2"
+                                key={option.id}
+                            >
+                                <MenuItem value={option.id}>
+                                    {option.name}
+                                </MenuItem>
+                                <div>
+                                    <Button
+                                        aria-label="edit"
+                                        onClick={() =>
+                                            onEditCategory(option.id)
+                                        }
+                                    >
+                                        <EditIcon />
+                                    </Button>
+                                    <Button
+                                        aria-label="delete"
+                                        onClick={() =>
+                                            onDeleteCategory(option.id)
+                                        }
+                                    >
+                                        <DeleteIcon />
+                                    </Button>
+                                </div>
+                            </div>
                         ))}
                     </TextField>
                     <TextField
