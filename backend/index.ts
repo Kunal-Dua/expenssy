@@ -14,6 +14,7 @@ app.use(
         origin: [
             "http://localhost:5173",
             "https://expenssy-frontend.vercel.app",
+            "https://expenssy-frontend-511gge0tx-kunal-duas-projects.vercel.app",
         ],
         credentials: true,
     }),
