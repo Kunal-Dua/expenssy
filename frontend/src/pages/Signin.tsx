@@ -47,7 +47,7 @@ const Signin = () => {
                                 Create account
                             </div>
                             Don't have an account?
-                            <Link className="pl-2 underline" to={"/signin"}>
+                            <Link className="pl-2 underline" to={"/signup"}>
                                 Sign up
                             </Link>
                         </div>
