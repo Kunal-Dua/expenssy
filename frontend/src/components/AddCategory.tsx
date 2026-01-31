@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { TextField } from "@mui/material";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
+import TextBox from "./TextBox";
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState({
@@ -36,10 +36,9 @@ const CreateExpense = () => {
                     className="flex flex-col gap-2 mt-5"
                     onSubmit={OnSubmission}
                 >
-                    <TextField
+                    <TextBox
                         id="outlined-basic"
                         label="Category Name"
-                        variant="outlined"
                         value={inputs.name}
                         required
                         onChange={(e) => {
