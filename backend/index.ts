@@ -11,7 +11,10 @@ const app = express();
 
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: [
+            "http://localhost:5173",
+            "https://expenssy-frontend.vercel.app",
+        ],
         credentials: true,
     }),
 );
