@@ -15,22 +15,14 @@ const allowedOrigins = [
 ];
 app.use(
     cors({
-        origin: (origin, callback) => {
-            // allow server-to-server & Postman
-            if (!origin) return callback(null, true);
-
-            if (allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error("Not allowed by CORS"));
-            }
-        },
+        origin: true,
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
     }),
 );
 app.options("*", cors());
+
 app.use(express.json());
 app.use("/api/v1", rootRouter);
 app.use(globalErrorHandler);
