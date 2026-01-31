@@ -84,7 +84,7 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "prisma generate && tsc",
+        "build": "prisma generate --no-engine && tsc",
         "start": "node dist/index.js",
         "dev": "npx tsc -w & nodemon dist/index.js"
     },
