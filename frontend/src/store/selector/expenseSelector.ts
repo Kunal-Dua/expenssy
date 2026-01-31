@@ -1,6 +1,6 @@
 import { selectorFamily } from "recoil";
 import { expenseState } from "../atoms/expenseAtom";
-import type { Expenses } from "../../types/expenses";
+import type { Expenses } from "../../types";
 
 export const expenseByIdState = selectorFamily<Expenses | undefined, string>({
     key: "expenseByIdState",

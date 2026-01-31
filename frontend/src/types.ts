@@ -34,8 +34,9 @@ export interface categoryDetails {
 
 export const PALETTE = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
 export const OTHERS_COLOR = "#B0B0B0";
+
 export type categorySumType = {
-    categoryName: string;
     categoryId: string;
-    _sum: { amount: number };
+    categoryName: string;
+    amount: number;
 };
