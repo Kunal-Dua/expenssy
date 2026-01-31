@@ -1,4 +1,5 @@
 export type Inputs = {
+    expenseId: string;
     categoryId: string;
     name: string;
     amount: number;
@@ -23,6 +24,7 @@ export type FormProps = {
     onSubmission: (e: React.FormEvent) => Promise<void>;
     onEditCategory: (categoryId: string, categoryName: string) => Promise<void>;
     onDeleteCategory: (categoryId: string) => Promise<void>;
+    Editable:boolean
 };
 
 export interface categoryDetails {

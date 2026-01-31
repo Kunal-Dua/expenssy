@@ -14,6 +14,7 @@ const Form = ({
     onSubmission,
     onEditCategory,
     onDeleteCategory,
+    Editable,
 }: FormProps) => {
     const category = useRecoilValue(categoriesState);
     const [editCategoryField, setEditCategoryField] = useState(false);
@@ -56,7 +57,7 @@ const Form = ({
                     </TextField>
                     {inputs.categoryId && (
                         <div style={{ marginTop: 8 }}>
-                            {!editCategoryField && (
+                            {!editCategoryField && Editable && (
                                 <Button
                                     onClick={() => setEditCategoryField(true)}
                                     startIcon={<EditIcon />}
@@ -64,7 +65,7 @@ const Form = ({
                                     Edit
                                 </Button>
                             )}
-                            {!editCategoryField && (
+                            {!editCategoryField && Editable && (
                                 <Button
                                     onClick={() =>
                                         onDeleteCategory(inputs.categoryId)
@@ -74,8 +75,8 @@ const Form = ({
                                     Delete
                                 </Button>
                             )}
-                            {editCategoryField && (
-                                <>
+                            {editCategoryField && Editable && (
+                                <div className="flex gap-2">
                                     <TextBox
                                         id="outlined-basic-name"
                                         label="Enter Category Name"
@@ -98,7 +99,7 @@ const Form = ({
                                     >
                                         <PublishIcon />
                                     </button>
-                                </>
+                                </div>
                             )}
                         </div>
                     )}

@@ -8,12 +8,13 @@ import type { Expenses, Inputs } from "../types";
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState<Inputs>({
+        expenseId: "",
         categoryId: "",
         name: "",
         amount: 1,
         description: "",
     });
-    
+
     const setCategory = useSetRecoilState(categoriesState);
     const [expenses, setExpenses] = useRecoilState(expenseState);
 
@@ -77,6 +78,7 @@ const CreateExpense = () => {
             );
             setExpenses([...expenses, res.data.expense as Expenses]);
             setInputs({
+                expenseId:"",
                 categoryId: "",
                 name: "",
                 amount: 0,
@@ -94,6 +96,7 @@ const CreateExpense = () => {
             onEditCategory={onEditCategory}
             onSubmission={onSubmission}
             onDeleteCategory={onDeleteCategory}
+            Editable={true}
         />
     );
 };
