@@ -30,6 +30,7 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization"],
     }),
 );
+app.options("*", cors());
 app.use(express.json());
 app.use("/api/v1", rootRouter);
 app.use(globalErrorHandler);
