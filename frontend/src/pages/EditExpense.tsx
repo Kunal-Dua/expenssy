@@ -7,6 +7,7 @@ import { categoriesState } from "../store/atoms/categoryAtom";
 import { expenseState } from "../store/atoms/expenseAtom";
 import type { Expenses } from "../types/expenses";
 import axios from "axios";
+import TextBox from "../components/TextBox";
 
 const EditExpense = () => {
     const navigate = useNavigate();
@@ -59,12 +60,11 @@ const EditExpense = () => {
                 <div className="rounded-md border-gray-500 m-2 p-2">
                     <h3 className="flex ustify-around">Add Expense</h3>
                     <form className="flex flex-col gap-2 mt-5">
-                        <TextField
+                        <TextBox
                             type="number"
                             id="outlined-basic"
                             label="Amount"
-                            value={inputs.amount}
-                            variant="outlined"
+                            value={inputs.amount.toString()}
                             required
                             onChange={(e) => {
                                 setInputs({
@@ -98,10 +98,9 @@ const EditExpense = () => {
                                 </MenuItem>
                             ))}
                         </TextField>
-                        <TextField
+                        <TextBox
                             id="outlined-basic"
                             label="Expense Name"
-                            variant="outlined"
                             value={inputs.name}
                             required
                             onChange={(e) => {
@@ -112,10 +111,9 @@ const EditExpense = () => {
                             }}
                         />
 
-                        <TextField
+                        <TextBox
                             id="outlined-basic"
                             label="Description"
-                            variant="outlined"
                             value={inputs.description}
                             onChange={(e) => {
                                 setInputs({

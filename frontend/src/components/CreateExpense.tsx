@@ -7,6 +7,7 @@ import { expenseState } from "../store/atoms/expenseAtom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import type { Expenses } from "../types/expenses";
+import TextBox from "./TextBox";
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState({
@@ -18,7 +19,7 @@ const CreateExpense = () => {
 
     const onEditCategory = async (categoryid: string) => {
         try {
-            const res = await axios.put(
+            await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/updateCategory`,
                 { categoryid },
                 {
@@ -89,12 +90,11 @@ const CreateExpense = () => {
             <div className="rounded-md border-gray-500 m-2 p-2">
                 <h3 className="flex ustify-around">Add Expense</h3>
                 <form className="flex flex-col gap-2 mt-5">
-                    <TextField
+                    <TextBox
                         type="number"
                         id="outlined-basic"
                         label="Amount"
-                        value={inputs.amount}
-                        variant="outlined"
+                        value={inputs.amount.toString()}
                         required
                         onChange={(e) => {
                             setInputs({
@@ -151,10 +151,9 @@ const CreateExpense = () => {
                             </div>
                         ))}
                     </TextField>
-                    <TextField
+                    <TextBox
                         id="outlined-basic"
                         label="Expense Name"
-                        variant="outlined"
                         value={inputs.name}
                         required
                         onChange={(e) => {
@@ -165,10 +164,9 @@ const CreateExpense = () => {
                         }}
                     />
 
-                    <TextField
+                    <TextBox
                         id="outlined-basic"
                         label="Description"
-                        variant="outlined"
                         value={inputs.description}
                         onChange={(e) => {
                             setInputs({
