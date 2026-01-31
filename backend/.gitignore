@@ -29,4 +29,6 @@ yarn.lock
 pnpm-lock.yaml
 
 .env
+.env.production
+.env.local
 /generated/prisma
