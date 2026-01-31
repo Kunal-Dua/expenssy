@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 import TextBox from "./TextBox";
+import { authState } from "../store/atoms/authAtom";
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState({
@@ -10,9 +11,14 @@ const CreateExpense = () => {
     });
 
     const setCategoryState = useSetRecoilState(categoriesState);
+    const { isAuthenticated } = useRecoilValue(authState);
 
     async function OnSubmission(e: React.FormEvent) {
         e.preventDefault();
+        if (!isAuthenticated) {
+            alert("Please log in");
+            return;
+        }
         const res = await axios.post(
             `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/addCategory`,
             inputs,

@@ -2,9 +2,12 @@ import { useState, type ChangeEvent } from "react";
 import { Quote } from "../components/Quote";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { authState } from "../store/atoms/authAtom";
 
 const Signup = () => {
     const navigate = useNavigate();
+    const setAuth = useSetRecoilState(authState);
     const [inputs, setInputs] = useState({
         email: "",
         password: "",
@@ -20,6 +23,10 @@ const Signup = () => {
             );
             const jwt = res.data;
             localStorage.setItem("token", jwt);
+            setAuth({
+                isAuthenticated: true,
+                user: res.data.user,
+            });
             navigate("/");
         } catch (err) {
             alert("Error while signing up " + err);

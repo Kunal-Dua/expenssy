@@ -8,9 +8,10 @@ import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { expenseState } from "../store/atoms/expenseAtom";
 import { useNavigate } from "react-router-dom";
+import { authState } from "../store/atoms/authAtom";
 
 type ExpenseProp = {
     expenses: Expenses[];
@@ -19,6 +20,7 @@ type ExpenseProp = {
 const ExpenseTable = ({ expenses }: ExpenseProp) => {
     const navigate = useNavigate();
     const setExpenses = useSetRecoilState(expenseState);
+    const { isAuthenticated } = useRecoilValue(authState);
 
     const deleteExpense = async (expenseId: string) => {
         try {
@@ -53,6 +55,7 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
                         <TableCell align="center"></TableCell>
                     </TableRow>
                 </TableHead>
+                {!isAuthenticated && "No entries sign in"}
                 <TableBody>
                     {expenses.map((expense: Expenses) => (
                         <TableRow

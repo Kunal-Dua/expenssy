@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 import { expenseState } from "../store/atoms/expenseAtom";
 import Form from "./Form";
+import { authState } from "../store/atoms/authAtom";
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState<Inputs>({
@@ -16,6 +17,7 @@ const CreateExpense = () => {
 
     const setCategory = useSetRecoilState(categoriesState);
     const setExpenses = useSetRecoilState(expenseState);
+    const { isAuthenticated } = useRecoilValue(authState);
 
     const onEditCategory = async (categoryid: string, name: string) => {
         try {
@@ -72,7 +74,7 @@ const CreateExpense = () => {
 
     async function onSubmission(e: React.FormEvent) {
         e.preventDefault();
-        if (inputs.amount > 0 && inputs.name != "") {
+        if (inputs.amount > 0 && inputs.name != "" && isAuthenticated) {
             const res = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/addExpense`,
                 inputs,
@@ -90,6 +92,8 @@ const CreateExpense = () => {
                 amount: 0,
                 description: "",
             });
+        } else if (!isAuthenticated) {
+            alert("Please log in");
         } else {
             console.log("Invalid Inputs");
         }
