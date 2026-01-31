@@ -308,19 +308,6 @@ trackerRouter.get("/total", async (req, res) => {
     return res.status(200).send(amount);
 });
 
-trackerRouter.get("/getAmount", async (req, res) => {
-    const amount = await prisma.expenses.groupBy({
-        by: ["categoryId", "categoryName"],
-        where: {
-            userId: req.userid,
-        },
-        _sum: {
-            amount: true,
-        },
-    });
-    return res.status(200).send(amount);
-});
-
 trackerRouter.get("/getAmount/:id", async (req, res) => {
     const bodyParsed = getCategory.safeParse(req.params);
     if (!bodyParsed.success) {
