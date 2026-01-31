@@ -19,11 +19,20 @@ app.use(
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
+        preflightContinue: false,
+        optionsSuccessStatus: 204,
+    }),
+);
+app.use(
+    cors({
+        exposedHeaders: ["Authorization"],
     }),
 );
 app.options("*", cors());
-
 app.use(express.json());
+app.get("/ping", (req, res) => {
+    res.json({ ok: true });
+});
 app.use("/api/v1", rootRouter);
 app.use(globalErrorHandler);
 
