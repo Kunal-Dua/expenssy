@@ -310,7 +310,7 @@ trackerRouter.get("/total", async (req, res) => {
 
 trackerRouter.get("/getAmount", async (req, res) => {
     const amount = await prisma.expenses.groupBy({
-        by: ["categoryId"],
+        by: ["categoryId", "categoryName"],
         where: {
             userId: req.userid,
         },

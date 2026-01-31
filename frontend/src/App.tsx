@@ -7,6 +7,7 @@ import { useLoadCategories } from "./hooks/useLoadCategories";
 import Expenses from "./pages/Expenses";
 import EditExpense from "./pages/EditExpense";
 import useLoadExpenses from "./hooks/useLoadExpenses";
+import "./chartConfig";
 
 function App() {
     useAuthInit();
