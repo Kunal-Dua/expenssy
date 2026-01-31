@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 import { expenseState } from "../store/atoms/expenseAtom";
 import Form from "./Form";
@@ -16,7 +16,7 @@ const CreateExpense = () => {
     });
 
     const setCategory = useSetRecoilState(categoriesState);
-    const [expenses, setExpenses] = useRecoilState(expenseState);
+    const setExpenses = useSetRecoilState(expenseState);
 
     const onEditCategory = async (categoryid: string, name: string) => {
         try {
@@ -28,6 +28,18 @@ const CreateExpense = () => {
                         Authorization: localStorage.getItem("token"),
                     },
                 },
+            );
+            setCategory((prev) =>
+                prev.map((cat) =>
+                    cat.id === categoryid ? { ...cat, name } : cat,
+                ),
+            );
+            setExpenses((prev) =>
+                prev.map((exp) =>
+                    exp.categoryId === categoryid
+                        ? { ...exp, categoryName: name }
+                        : exp,
+                ),
             );
         } catch (err) {
             console.error(err);
@@ -71,9 +83,9 @@ const CreateExpense = () => {
                     },
                 },
             );
-            setExpenses([...expenses, res.data.expense as Expenses]);
+            setExpenses((prev) => [...prev, res.data.expense as Expenses]);
             setInputs({
-                expenseId:"",
+                expenseId: "",
                 categoryId: "",
                 name: "",
                 amount: 0,
