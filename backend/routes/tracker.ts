@@ -55,6 +55,17 @@ trackerRouter.put("/updateCategory", async (req, res) => {
                 name: bodyParsed.data.name,
             },
         });
+
+        await prisma.expenses.updateMany({
+            where: {
+                userId: req.userid,
+                categoryId: bodyParsed.data.categoryid,
+            },
+            data: {
+                categoryName: bodyParsed.data.name,
+            },
+        });
+
         return res.status(200).json({
             msg: "Category name updated successfully",
         });

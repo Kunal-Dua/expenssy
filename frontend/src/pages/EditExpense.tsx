@@ -5,9 +5,9 @@ import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 import { expenseState } from "../store/atoms/expenseAtom";
-import type { Expenses } from "../types/expenses";
 import axios from "axios";
 import TextBox from "../components/TextBox";
+import type { Expenses } from "../types";
 
 const EditExpense = () => {
     const navigate = useNavigate();
@@ -46,7 +46,7 @@ const EditExpense = () => {
                         ? (res.data.expense as Expenses)
                         : exp,
                 ),
-            );
+            );            
             navigate("/");
         } else {
             console.log("Invalid Inputs");

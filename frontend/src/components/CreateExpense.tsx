@@ -1,33 +1,38 @@
 import React, { useState } from "react";
-import { Button, MenuItem, TextField } from "@mui/material";
 import axios from "axios";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 import { expenseState } from "../store/atoms/expenseAtom";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import type { Expenses } from "../types/expenses";
-import TextBox from "./TextBox";
+import Form from "./Form";
+import type { Expenses, Inputs } from "../types";
 
 const CreateExpense = () => {
-    const [inputs, setInputs] = useState({
+    const [inputs, setInputs] = useState<Inputs>({
         categoryId: "",
         name: "",
-        amount: 0,
+        amount: 1,
         description: "",
     });
+    
+    const setCategory = useSetRecoilState(categoriesState);
+    const [expenses, setExpenses] = useRecoilState(expenseState);
 
-    const onEditCategory = async (categoryid: string) => {
+    const onEditCategory = async (categoryid: string, name: string) => {
         try {
             await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/updateCategory`,
-                { categoryid },
+                { categoryid, name },
                 {
                     headers: {
                         Authorization: localStorage.getItem("token"),
                     },
                 },
             );
+            // setCategory((prev) =>
+            //     prev.map((cat) =>
+            //         cat.id === categoryid ? { ...cat, name } : cat,
+            //     ),
+            // );
         } catch (err) {
             console.error(err);
         }
@@ -58,10 +63,7 @@ const CreateExpense = () => {
         }
     };
 
-    const [category, setCategory] = useRecoilState(categoriesState);
-    const [expenses, setExpenses] = useRecoilState(expenseState);
-
-    async function OnSubmission(e: React.FormEvent) {
+    async function onSubmission(e: React.FormEvent) {
         e.preventDefault();
         if (inputs.amount > 0 && inputs.name != "") {
             const res = await axios.post(
@@ -86,104 +88,13 @@ const CreateExpense = () => {
     }
 
     return (
-        <div className="flex-1">
-            <div className="rounded-md border-gray-500 m-2 p-2">
-                <h3 className="flex ustify-around">Add Expense</h3>
-                <form className="flex flex-col gap-2 mt-5">
-                    <TextBox
-                        type="number"
-                        id="outlined-basic"
-                        label="Amount"
-                        value={inputs.amount.toString()}
-                        required
-                        onChange={(e) => {
-                            setInputs({
-                                ...inputs,
-                                amount: Number(e.target.value),
-                            });
-                        }}
-                    />
-                    <TextField
-                        id="outlined-select-category"
-                        label="Category"
-                        value={inputs.categoryId}
-                        required
-                        select
-                        onChange={(e) => {
-                            setInputs({
-                                ...inputs,
-                                categoryId: e.target.value,
-                            });
-                        }}
-                        sx={{
-                            minWidth: 120,
-                            "& input": {
-                                width: "auto",
-                            },
-                        }}
-                    >
-                        {category.map((option) => (
-                            <div
-                                className="flex flex-row justify-between mr-4 pr-2"
-                                key={option.id}
-                            >
-                                <MenuItem value={option.id}>
-                                    {option.name}
-                                </MenuItem>
-                                <div>
-                                    <Button
-                                        aria-label="edit"
-                                        onClick={() =>
-                                            onEditCategory(option.id)
-                                        }
-                                    >
-                                        <EditIcon />
-                                    </Button>
-                                    <Button
-                                        aria-label="delete"
-                                        onClick={() =>
-                                            onDeleteCategory(option.id)
-                                        }
-                                    >
-                                        <DeleteIcon />
-                                    </Button>
-                                </div>
-                            </div>
-                        ))}
-                    </TextField>
-                    <TextBox
-                        id="outlined-basic"
-                        label="Expense Name"
-                        value={inputs.name}
-                        required
-                        onChange={(e) => {
-                            setInputs({
-                                ...inputs,
-                                name: e.target.value,
-                            });
-                        }}
-                    />
-
-                    <TextBox
-                        id="outlined-basic"
-                        label="Description"
-                        value={inputs.description}
-                        onChange={(e) => {
-                            setInputs({
-                                ...inputs,
-                                description: e.target.value,
-                            });
-                        }}
-                    />
-                    <button
-                        className="border bg-blue-600 border-blue-600 text-sm rounded-lg p-2.5 text-white block"
-                        onClick={OnSubmission}
-                    >
-                        Submit
-                    </button>
-                </form>
-            </div>
-        </div>
+        <Form
+            inputs={inputs}
+            setInputs={setInputs}
+            onEditCategory={onEditCategory}
+            onSubmission={onSubmission}
+            onDeleteCategory={onDeleteCategory}
+        />
     );
 };
 
