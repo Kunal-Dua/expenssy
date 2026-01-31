@@ -82,7 +82,7 @@ const CreateExpense = () => {
                     },
                 },
             );
-            setExpenses((prev) => [...prev, res.data.expense as Expenses]);
+            setExpenses((prev) => [res.data.expense as Expenses, ...prev]);
             setInputs({
                 expenseId: "",
                 categoryId: "",
