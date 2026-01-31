@@ -8,15 +8,17 @@ const port = process.env.PORT;
 dotenv.config();
 
 const app = express();
-
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://expenssy-frontend.vercel.app",
+    "https://expenssy-frontend-511gge0tx-kunal-duas-projects.vercel.app",
+];
 app.use(
     cors({
-        origin: [
-            "http://localhost:5173",
-            "https://expenssy-frontend.vercel.app",
-            "https://expenssy-frontend-511gge0tx-kunal-duas-projects.vercel.app",
-        ],
+        origin: allowedOrigins,
         credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     }),
 );
 app.use(express.json());
