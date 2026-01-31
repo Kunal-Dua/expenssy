@@ -29,7 +29,12 @@ const Signup = () => {
             });
             navigate("/");
         } catch (err) {
-            alert("Error while signing up " + err);
+            if (axios.isAxiosError(err)) {
+                alert(err.response?.data?.msg);
+            } else {
+                console.error("Somthing went wrong");
+                alert("Unexpected error try again");
+            }
         }
     }
     return (

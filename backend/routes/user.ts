@@ -30,7 +30,7 @@ userRouter.post("/signup", async (req, res) => {
     });
 
     if (existingUser) {
-        return res.status(411).json({
+        return res.status(403).json({
             msg: "Email already taken / Incorrect inputs",
         });
     }
@@ -66,7 +66,7 @@ userRouter.post("/signin", async (req, res) => {
 
     if (!user) {
         return res.status(403).json({
-            error: "User not found",
+            msg: "User not found",
         });
     }
 

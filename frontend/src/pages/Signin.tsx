@@ -28,7 +28,12 @@ const Signin = () => {
             });
             navigate("/");
         } catch (err) {
-            alert("Error while signing in " + err);
+            if (axios.isAxiosError(err)) {
+                alert(err.response?.data?.msg);
+            } else {
+                console.error("Somthing went wrong");
+                alert("Unexpected error try again");
+            }
         }
     }
 
