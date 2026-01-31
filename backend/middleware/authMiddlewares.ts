@@ -6,6 +6,10 @@ export const authMiddleware = async (
     res: Response,
     next: NextFunction,
 ) => {
+     if (req.method === "OPTIONS") {
+         return next();
+     }
+
     const authHeader: string | undefined = req.headers.authorization;
 
     if (!authHeader) {
@@ -29,6 +33,6 @@ export const authMiddleware = async (
         req.userid = decoded.id as string;
         next();
     } catch (err) {
-        return res.status(403).json({});
+        return res.status(401).json({});
     }
 };
