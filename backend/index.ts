@@ -15,12 +15,8 @@ const allowedOrigins = [
 ];
 app.use(
     cors({
-        origin: true,
+        origin: allowedOrigins,
         credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        preflightContinue: false,
-        optionsSuccessStatus: 204,
     }),
 );
 app.use(
@@ -28,7 +24,7 @@ app.use(
         exposedHeaders: ["Authorization"],
     }),
 );
-app.options("*", cors());
+
 app.use(express.json());
 app.get("/ping", (req, res) => {
     res.json({ ok: true });
