@@ -32,6 +32,8 @@ const editExpense = z.object({
     name: z.string().optional(),
     amount: z.number().nonnegative().optional(),
     description: z.string().optional(),
+    categoryId: z.string().optional(),
+    expenseId: z.string(),
 });
 
 const deleteExpense = z.object({

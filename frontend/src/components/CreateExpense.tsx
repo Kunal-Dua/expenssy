@@ -63,8 +63,6 @@ const CreateExpense = () => {
     async function OnSubmission(e: React.FormEvent) {
         e.preventDefault();
         if (inputs.amount > 0 && inputs.name != "") {
-            console.log("fghjk");
-
             const res = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/addExpense`,
                 inputs,

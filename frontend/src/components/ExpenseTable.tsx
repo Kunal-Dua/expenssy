@@ -11,13 +11,14 @@ import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { expenseState } from "../store/atoms/expenseAtom";
 import type { Expenses } from "../types/expenses";
-
+import { useNavigate } from "react-router-dom";
 
 type ExpenseProp = {
     expenses: Expenses[];
 };
 
 const ExpenseTable = ({ expenses }: ExpenseProp) => {
+    const navigate = useNavigate();
     const setExpenses = useSetRecoilState(expenseState);
 
     const deleteExpense = async (expenseId: string) => {
@@ -36,8 +37,9 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
         }
     };
 
-
-
+    const editRow = (expense: Expenses) => {
+        navigate("/editExpenses", { state: { expense } });
+    };
 
     return (
         <TableContainer component={Paper}>
@@ -81,15 +83,14 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
                             </TableCell>
                             <TableCell align="center">
                                 {new Date(
-                                    Math.max(
-                                        new Date(expense.dateCreated).getTime(),
-                                        new Date(expense.dateUpdated).getTime(),
-                                    ),
+                                    expense.dateCreated,
                                 ).toLocaleDateString()}
                             </TableCell>
                             <TableCell align="center">
                                 <div>
-                                    <EditIcon />
+                                    <EditIcon
+                                        onClick={() => editRow(expense)}
+                                    />
                                 </div>
                             </TableCell>
                             <TableCell align="center">

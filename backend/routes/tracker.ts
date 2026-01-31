@@ -5,12 +5,10 @@ import {
     addCategory,
     addExpense,
     deleteCategory,
-    deleteExpense,
     editCategory,
     editExpense,
     getCategory,
 } from "../schemas/trackerSchema.js";
-import { log } from "node:console";
 
 const trackerRouter = express.Router();
 trackerRouter.use(authMiddleware);
@@ -195,15 +193,37 @@ trackerRouter.put("/updateExpense", async (req, res) => {
             msg: "Incorrect inputs",
         });
     }
+    const category = await prisma.category.findUnique({
+        where: {
+            userId: req.userid,
+            id: bodyParsed.data.categoryId,
+        },
+        select: {
+            name: true,
+        },
+    });
 
+    if (!category?.name) {
+        return res.status(403).json({
+            msg: "Invalid inputs",
+        });
+    }
     const expense = await prisma.expenses.update({
         where: {
-            id: req.body.expenseid,
+            userId: req.userid,
+            id: req.body.expenseId,
         },
-        data: bodyParsed.data,
+        data: {
+            expenseName: req.body.name,
+            amount: req.body.amount,
+            expenseDescription: req.body.description,
+            categoryId: req.body.categoryId,
+            categoryName: category?.name as string,
+        },
     });
     return res.status(200).json({
         msg: "Expense updated successfully",
+        expense,
     });
 });
 

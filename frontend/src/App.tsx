@@ -5,6 +5,7 @@ import Tracker from "./pages/Tracker";
 import { useAuthInit } from "./hooks/useAuthInit";
 import { useLoadCategories } from "./hooks/useLoadCategories";
 import Expenses from "./pages/Expenses";
+import EditExpense from "./pages/EditExpense";
 import useLoadExpenses from "./hooks/useLoadExpenses";
 
 function App() {
@@ -19,6 +20,10 @@ function App() {
                     <Route path="/signin" element={<Signin />}></Route>
                     <Route path="/" element={<Tracker />}></Route>
                     <Route path="/expenses" element={<Expenses />}></Route>
+                    <Route
+                        path="/editExpenses"
+                        element={<EditExpense />}
+                    ></Route>
                 </Routes>
             </BrowserRouter>
         </>
