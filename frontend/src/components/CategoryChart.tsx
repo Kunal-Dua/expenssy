@@ -1,5 +1,5 @@
 import { Doughnut } from "react-chartjs-2";
-import { OTHERS_COLOR, PALETTE, type categorySumType } from "../types";
+import { OTHERS_COLOR, PALETTE, type categorySumType } from "../types/types";
 import { useRecoilValue } from "recoil";
 import { categoryAmountSelector } from "../store/selector/categorySelector";
 

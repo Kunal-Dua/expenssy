@@ -2,7 +2,7 @@ import { Button, MenuItem, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import TextBox from "./TextBox";
-import type { FormProps } from "../types";
+import type { FormProps } from "../types/types";
 import { useRecoilValue } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 import { useState } from "react";

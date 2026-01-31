@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { expenseState } from "../store/atoms/expenseAtom";
 import axios from "axios";
-import type { Expenses } from "../types";
 import Form from "../components/Form";
 
 const EditExpense = () => {

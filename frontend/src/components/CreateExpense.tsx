@@ -4,7 +4,6 @@ import { useSetRecoilState } from "recoil";
 import { categoriesState } from "../store/atoms/categoryAtom";
 import { expenseState } from "../store/atoms/expenseAtom";
 import Form from "./Form";
-import type { Expenses, Inputs } from "../types";
 
 const CreateExpense = () => {
     const [inputs, setInputs] = useState<Inputs>({

@@ -11,7 +11,6 @@ import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { expenseState } from "../store/atoms/expenseAtom";
 import { useNavigate } from "react-router-dom";
-import type { Expenses } from "../types";
 
 type ExpenseProp = {
     expenses: Expenses[];
