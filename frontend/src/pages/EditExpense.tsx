@@ -1,8 +1,7 @@
 import Navbar from "../components/Navbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { categoriesState } from "../store/atoms/categoryAtom";
+import { useSetRecoilState } from "recoil";
 import { expenseState } from "../store/atoms/expenseAtom";
 import axios from "axios";
 import type { Expenses } from "../types";
@@ -21,7 +20,6 @@ const EditExpense = () => {
         description: expense?.expenseDescription,
     });
 
-    const category = useRecoilValue(categoriesState);
     const setExpenses = useSetRecoilState(expenseState);
 
     async function onSubmission(e: React.FormEvent) {

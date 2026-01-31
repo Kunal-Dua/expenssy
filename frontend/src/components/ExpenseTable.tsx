@@ -10,8 +10,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { expenseState } from "../store/atoms/expenseAtom";
-import type { Expenses } from "../types/expenses";
 import { useNavigate } from "react-router-dom";
+import type { Expenses } from "../types";
 
 type ExpenseProp = {
     expenses: Expenses[];
@@ -40,7 +40,6 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
     const editRow = (expense: Expenses) => {
         navigate("/editExpenses", { state: { expense } });
     };
-
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">

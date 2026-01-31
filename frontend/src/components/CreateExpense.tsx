@@ -29,11 +29,6 @@ const CreateExpense = () => {
                     },
                 },
             );
-            // setCategory((prev) =>
-            //     prev.map((cat) =>
-            //         cat.id === categoryid ? { ...cat, name } : cat,
-            //     ),
-            // );
         } catch (err) {
             console.error(err);
         }
