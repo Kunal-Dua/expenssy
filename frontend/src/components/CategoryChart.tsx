@@ -1,7 +1,9 @@
 import { Doughnut } from "react-chartjs-2";
-import { OTHERS_COLOR, PALETTE, type categorySumType } from "../types/types";
 import { useRecoilValue } from "recoil";
 import { categoryAmountSelector } from "../store/selector/categorySelector";
+
+const PALETTE = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
+const OTHERS_COLOR = "#B0B0B0";
 
 const prepareChartData = (data: categorySumType[]) => {
     const sorted = [...data].sort((a, b) => b.amount - a.amount);
