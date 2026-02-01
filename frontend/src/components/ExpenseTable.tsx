@@ -23,26 +23,37 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
     const { isAuthenticated } = useRecoilValue(authState);
 
     const deleteExpense = async (expenseId: string) => {
-        try {
-            await axios.delete(
-                `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/deleteExpense/${expenseId}`,
-                {
-                    headers: {
-                        Authorization: localStorage.getItem("token"),
+        if (isAuthenticated) {
+            try {
+                await axios.delete(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/deleteExpense/${expenseId}`,
+                    {
+                        headers: {
+                            Authorization: localStorage.getItem("token"),
+                        },
                     },
-                },
-            );
-            setExpenses((prev) => prev.filter((item) => item.id !== expenseId));
-        } catch (err) {
-            console.error(err);
+                );
+                setExpenses((prev) =>
+                    prev.filter((item) => item.id !== expenseId),
+                );
+            } catch (err) {
+                console.error(err);
+            }
+        } else {
+            alert("Please Log in");
         }
     };
 
     const editRow = (expense: Expenses) => {
-        navigate("/editExpenses", { state: { expense } });
+        if (isAuthenticated) {
+            navigate("/editExpenses", { state: { expense } });
+        } else {
+            alert("Please Log in");
+        }
     };
     return (
         <TableContainer component={Paper}>
+                {!isAuthenticated && "Sample Data  Please Log in"}
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
@@ -55,7 +66,6 @@ const ExpenseTable = ({ expenses }: ExpenseProp) => {
                         <TableCell align="center"></TableCell>
                     </TableRow>
                 </TableHead>
-                {!isAuthenticated && "No entries sign in"}
                 <TableBody>
                     {expenses.map((expense: Expenses) => (
                         <TableRow

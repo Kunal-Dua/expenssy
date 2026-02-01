@@ -11,7 +11,7 @@ const Navbar = () => {
     function logout() {
         reset();
         localStorage.removeItem("token");
-        navigate("/signin");
+        navigate("/");
     }
 
     return (
