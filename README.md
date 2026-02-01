@@ -55,12 +55,14 @@ cd expense-tracker
 ```
 
 <!-- # Backend -->
+
 ```bash
 cd backend
 npm install
 ```
 
 <!-- # Frontend -->
+
 ```bash
 cd ../frontend
 npm install
@@ -69,20 +71,27 @@ npm install
 2. **Update using .env.example**
 
 3. **Run Apllication**
-# Backend
+
+### Backend
+
+```bash
 cd backend
 npm run dev
+```
 
-# Frontend
+### Frontend
+
+```bash
 cd frontend
 npm run dev
+```
 
 ## API Endpoints
-(Adjust according to your backend)
-- POST /api/auth/register - Register a new user
-- POST /api/auth/login - Login a user
-- GET /api/expenses - Get all expenses
-- POST /api/expenses - Add a new expense
-- PUT /api/expenses/:id - Update an expense
-- DELETE /api/expenses/:id - Delete an expense
-- GET /api/categories - Get all categories
+
+- POST /api/v1/user/signup - Register a new user
+- POST /api/v1/user/signin - Login a user
+- GET /api/v1/tracker/ - Get all expenses
+- POST /api/v1/tracker/addExpense - Add a new expense
+- PUT /api/v1/tracker/updateExpense - Update an expense
+- DELETE /api/v1/tracker/deleteExpense/:id - Delete an expense
+- GET /api/v1/tracker/allCategory - Get all categories
