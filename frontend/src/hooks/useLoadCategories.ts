@@ -27,5 +27,5 @@ export const useLoadCategories = () => {
             .catch((e) => {
                 console.error(e);
             });
-    }, []);
+    }, [isAuthenticated]);
 };

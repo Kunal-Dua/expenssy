@@ -23,7 +23,7 @@ export const useLoadExpenses = () => {
             .catch((e) => {
                 console.error(e);
             });
-    }, []);
+    }, [token]);
 };
 
 export default useLoadExpenses;
