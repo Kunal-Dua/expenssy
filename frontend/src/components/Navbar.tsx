@@ -3,13 +3,19 @@ import { useRecoilValue, useResetRecoilState } from "recoil";
 import { Avatar } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/expense-tracker-logo-expenssy.svg";
+import { expenseState } from "../store/atoms/expenseAtom";
+import { categoriesState } from "../store/atoms/categoryAtom";
 
 const Navbar = () => {
     const { isAuthenticated } = useRecoilValue(authState);
     const navigate = useNavigate();
-    const reset = useResetRecoilState(authState);
+    const resetAuth = useResetRecoilState(authState);
+    const resetExpense = useResetRecoilState(expenseState);
+    const resetCategory = useResetRecoilState(categoriesState);
     function logout() {
-        reset();
+        resetAuth();
+        resetExpense();
+        resetCategory();
         localStorage.removeItem("token");
         navigate("/");
     }

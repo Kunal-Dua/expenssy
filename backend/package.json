@@ -89,7 +89,7 @@
         "build": "prisma generate && npx prisma migrate deploy",
         "start": "tsc && node dist/index.js",
         "prod": "cross-env NODE_ENV=production USE_PROD_ENV=true npx tsc && cross-env NODE_ENV=production USE_PROD_ENV=true nodemon dist/index.js",
-        "dev": "cross-env NODE_ENV=development npx tsc && cross-env NODE_ENV=development nodemon src/index.ts"
+        "dev": "cross-env NODE_ENV=development npx tsc && cross-env NODE_ENV=development nodemon dist/index.js"
     },
     "keywords": [],
     "author": "",

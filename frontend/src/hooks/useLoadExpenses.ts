@@ -7,24 +7,23 @@ export const useLoadExpenses = () => {
     const setExpenses = useSetRecoilState(expenseState);
     const token = localStorage.getItem("token");
 
-    if (token) {
-        useEffect(() => {
-            axios
-                .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/`, {
-                    headers: {
-                        Authorization: localStorage.getItem("token"),
-                    },
-                })
-                .then((res) => {
-                    setExpenses(res.data);
-                })
-                .catch((e) => {
-                    console.error(e);
-                });
-        }, []);
-    } else {
-        setExpenses([]);
-    }
+    useEffect(() => {
+        if (!token) {
+            return;
+        }
+        axios
+            .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/tracker/`, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            })
+            .then((res) => {
+                setExpenses(res.data);
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    }, []);
 };
 
 export default useLoadExpenses;

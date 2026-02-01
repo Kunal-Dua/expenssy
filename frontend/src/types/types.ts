@@ -67,7 +67,7 @@ export const dummyExpenses: Expenses[] = [
     },
 ];
 
-export const dummyCategory = [
+export const dummyCategory: { name: string; id: string }[] = [
     { name: "rent", id: "dummy-1" },
     {
         name: "income",
